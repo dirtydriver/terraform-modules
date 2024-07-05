@@ -63,11 +63,6 @@ output "vpc_ipv6_cidr_block" {
   value       = try(aws_vpc.main.ipv6_cidr_block, null)
 }
 
-output "vpc_secondary_cidr_blocks" {
-  description = "List of secondary CIDR blocks of the VPC"
-  value       = compact(aws_vpc_ipv4_cidr_block_association.this[*].cidr_block)
-}
-
 output "vpc_owner_id" {
   description = "The ID of the AWS account that owns the VPC"
   value       = try(aws_vpc.main.owner_id, null)
@@ -93,45 +88,31 @@ output "igw_arn" {
 
 output "public_subnets" {
   description = "List of IDs of public subnets"
-  value       = aws_subnet.public[*].id
+  value       = aws_subnet.public_subnets[*].id
 }
 
 output "public_subnet_arns" {
   description = "List of ARNs of public subnets"
-  value       = aws_subnet.public[*].arn
+  value       = aws_subnet.public_subnets[*].arn
 }
 
 output "public_subnets_cidr_blocks" {
   description = "List of cidr_blocks of public subnets"
-  value       = compact(aws_subnet.public[*].cidr_block)
+  value       = compact(aws_subnet.public_subnets[*].cidr_block)
 }
 
 output "public_subnets_ipv6_cidr_blocks" {
   description = "List of IPv6 cidr_blocks of public subnets in an IPv6 enabled VPC"
-  value       = compact(aws_subnet.public[*].ipv6_cidr_block)
+  value       = compact(aws_subnet.public_subnets[*].ipv6_cidr_block)
 }
 
 output "public_internet_gateway_route_id" {
   description = "ID of the internet gateway route"
-  value       = try(aws_route.public_internet_gateway[0].id, null)
-}
-
-output "public_internet_gateway_ipv6_route_id" {
-  description = "ID of the IPv6 internet gateway route"
-  value       = try(aws_route.public_internet_gateway_ipv6[0].id, null)
+  value       = try(aws_route_table.internet_rt.id, null)
 }
 
 output "public_route_table_association_ids" {
   description = "List of IDs of the public route table association"
-  value       = aws_route_table_association.public[*].id
+  value       = aws_route_table_association.public_subnet_asso[*].id
 }
 
-output "public_network_acl_id" {
-  description = "ID of the public network ACL"
-  value       = try(aws_network_acl.public[0].id, null)
-}
-
-output "public_network_acl_arn" {
-  description = "ARN of the public network ACL"
-  value       = try(aws_network_acl.public[0].arn, null)
-}
