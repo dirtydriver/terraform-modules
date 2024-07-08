@@ -33,6 +33,24 @@ resource "aws_internet_gateway" "igw" {
     Name : "Internet Gateway"
   }
 }
+resource "aws_eip" "nat" {
+  vpc = true
+
+  tags = {
+    Name = "nat for natgw"
+  }
+}
+resource "aws_nat_gateway" "nat" {
+  count = length(var.public_subnet_cdirs)
+  allocation_id = aws_eip.nat.id
+  subnet_id     = element(aws_subnet.public_subnets[*].id,count.index)
+
+  tags = {
+    Name = "nat"
+  }
+
+  depends_on = [aws_internet_gateway.igw]
+}
 
 resource "aws_route_table" "internet_rt" {
     vpc_id = aws_vpc.main.id
