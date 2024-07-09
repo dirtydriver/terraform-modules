@@ -101,6 +101,17 @@ output "public_subnets_cidr_blocks" {
   value       = compact(aws_subnet.public_subnets[*].cidr_block)
 }
 
+output "public_subnets_ids" {
+    value = aws_subnet.public_subnets[*].id
+}
+
+output "vpc_id" {
+    value = aws_vpc.main.id
+}
+
+output "private_subnets_ids" {
+    value = aws_subnet.private_subnets[*].id
+}
 output "public_subnets_ipv6_cidr_blocks" {
   description = "List of IPv6 cidr_blocks of public subnets in an IPv6 enabled VPC"
   value       = compact(aws_subnet.public_subnets[*].ipv6_cidr_block)

@@ -18,12 +18,6 @@ POLICY
 }
 
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.eks_role.name
-}
-
-
 resource "aws_iam_role" "nodes" {
   name = "eks-node-group-nodes"
 
@@ -37,6 +31,12 @@ resource "aws_iam_role" "nodes" {
     }]
     Version = "2012-10-17"
   })
+}
+
+
+resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks_role.name
 }
 
 resource "aws_iam_role_policy_attachment" "nodes-AmazonEKSWorkerNodePolicy" {
