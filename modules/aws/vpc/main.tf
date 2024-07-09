@@ -34,7 +34,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 resource "aws_eip" "nat" {
-  count = length(var.private_subnet_cdirs)
+  count = length(var.public_subnet_cdirs)
   domain = "vpc"
 
   tags = {
@@ -44,7 +44,7 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "nat" {
   connectivity_type = "public"
   count = length(var.public_subnet_cdirs)
-  allocation_id = aws_eip.nat.id
+  allocation_id = element(aws_eip.nat[*].id,count.index)
   subnet_id     = element(aws_subnet.public_subnets[*].id,count.index)
 
   tags = {
