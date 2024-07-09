@@ -34,19 +34,21 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 resource "aws_eip" "nat" {
+  count = length(var.private_subnet_cdirs)
   domain = "vpc"
 
   tags = {
-    Name = "nat for natgw"
+    Name = "Eip for NatGW ${count.index}"
   }
 }
 resource "aws_nat_gateway" "nat" {
-  count = length(var.public_subnet_cdirs)
+  connectivity_type = "private"
+  count = length(var.private_subnet_cdirs)
   allocation_id = aws_eip.nat.id
-  subnet_id     = element(aws_subnet.public_subnets[*].id,count.index)
+  subnet_id     = element(aws_subnet.private_subnets[*].id,count.index)
 
   tags = {
-    Name = "nat"
+    Name = "Private Subnet Nat ${count.index}"
   }
 
   depends_on = [aws_internet_gateway.igw]
@@ -64,6 +66,22 @@ resource "aws_route_table" "internet_rt" {
         Name: "Route to InternetGW"
     }
   
+}
+
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+}
+
+resource "aws_route_table_association" "private" {
+  count = length(var.public_subnet_cdirs)
+  subnet_id      = element(aws_subnet.private_subnets[*].id,count.index)
+  route_table_id = aws_route_table.private.id
 }
 
 resource "aws_route_table_association" "public_subnet_asso" {
