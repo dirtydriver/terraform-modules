@@ -34,7 +34,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 resource "aws_eip" "nat" {
-  domain = vpc
+  domain = "vpc"
 
   tags = {
     Name = "nat for natgw"
