@@ -42,10 +42,10 @@ resource "aws_eip" "nat" {
   }
 }
 resource "aws_nat_gateway" "nat" {
-  connectivity_type = "private"
-  count = length(var.private_subnet_cdirs)
+  connectivity_type = "public"
+  count = length(var.public_subnet_cdirs)
   allocation_id = aws_eip.nat.id
-  subnet_id     = element(aws_subnet.private_subnets[*].id,count.index)
+  subnet_id     = element(aws_subnet.public_subnets[*].id,count.index)
 
   tags = {
     Name = "Private Subnet Nat ${count.index}"
