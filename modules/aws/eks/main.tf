@@ -4,7 +4,6 @@ resource "aws_eks_cluster" "k8s_cluster" {
 
   vpc_config {
     subnet_ids = var.subnet_ids
-    vpc_id = var.vpc_id
   }
 
   depends_on = [aws_iam_role_policy_attachment.AmazonEKSClusterPolicy]
