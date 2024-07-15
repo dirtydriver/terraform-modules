@@ -21,3 +21,8 @@ variable "ecdsa_curve" {
   type        = string
   default     = "P256"
 }
+variable "key_name" {
+  description = "Name of the key"
+  type        = string
+  default     = "aws-key"
+}
