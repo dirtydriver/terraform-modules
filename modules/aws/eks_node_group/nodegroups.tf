@@ -1,7 +1,7 @@
 resource "aws_eks_node_group" "eks_node_group" {
-  for_each = var.eks_subnets
+  for_each = var.eks_subnets_ids
   cluster_name    = var.eks_cluster_name
-  node_group_name = var.node_group_name
+  node_group_name = local.node_group_name
   node_role_arn   = var.node_role_arn
   subnet_ids      = each.value.id
 

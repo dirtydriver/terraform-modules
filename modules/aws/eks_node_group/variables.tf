@@ -2,10 +2,8 @@ variable "eks_cluster_name" {
   type = string
 }
 
-variable "node_group_name" {
-    type = string
-    default = "${var.eks_cluster_name}-node-group"
-  
+locals {
+  node_group_name = "${var.eks_cluster_name}-node-group"
 }
 
 variable "node_role_arn" {
@@ -14,8 +12,8 @@ variable "node_role_arn" {
 }
 
 
-variable "eks_subnets" {
-    type = list()
+variable "eks_subnets_ids" {
+    type = list(string)
 }
 
 variable "desired_size" {
