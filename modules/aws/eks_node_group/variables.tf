@@ -1,37 +1,29 @@
-variable "eks_cluster_name" {
-  type = string
+variable "node_groups" {
+  description = "Map of node group configurations"
+  type = map(object({
+    desired_size    = number
+    max_size        = number
+    min_size        = number
+    instance_types  = list(string)
+    max_unavailable = number
+    subnets         = list(string)
+    tags            = map(string)
+  }))
+  default = {}
 }
 
-locals {
-  node_group_name = "${var.eks_cluster_name}-node-group"
+variable "eks_cluster_name" {
+  description = "Name of the EKS cluster"
+  type        = string
 }
 
 variable "node_role_arn" {
-    type = string
-    description = "Its node role arn what is created under the eks role section"
+  description = "Node role ARN created under the EKS role section"
+  type        = string
 }
 
-
-variable "list_of_node_types" {
-    type = list(string)
-}
-
-variable "eks_subnets_ids" {
-    type = list(string)
-}
-
-variable "desired_size" {
-    type = number
-}
-
-variable "max_size" {
-    type = number
-}
-
-variable "min_size" {
-    type = number
-}
-
-variable "max_unavailable" {
-    type = number
+variable "tags" {
+  description = "A map of tags to assign to resources"
+  type        = map(string)
+  default     = {}
 }
