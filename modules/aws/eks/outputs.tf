@@ -1,4 +1,4 @@
-output "endpoint" {
+output "cluster_endpoint" {
   value = aws_eks_cluster.k8s_cluster.endpoint
 }
 
@@ -12,4 +12,9 @@ output "cluster_name" {
 
 output "node_role_arn" {
   value = aws_iam_role.nodes.arn
+}
+
+output "cluster_id" {
+  description = "EKS Cluster ID"
+  value       = aws_eks_cluster.k8s_cluster.id
 }
