@@ -12,6 +12,10 @@ variable "node_role_arn" {
 }
 
 
+variable "list_of_node_types" {
+    type = list(string)
+}
+
 variable "eks_subnets_ids" {
     type = list(string)
 }

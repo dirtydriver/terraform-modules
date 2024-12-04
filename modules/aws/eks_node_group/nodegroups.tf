@@ -11,6 +11,7 @@ resource "aws_eks_node_group" "eks_node_group" {
     min_size     = var.min_size
   }
 
+  instance_types = var.list_of_node_types
   update_config {
     max_unavailable = var.max_unavailable
   }
