@@ -7,11 +7,13 @@ output "kubeconfig-certificate-authority-data" {
 }
 
 output "cluster_name" {
-  value = aws_eks_cluster.k8s_cluster.name
+  description = "EKS Cluster Name"
+  value       = aws_eks_cluster.k8s_cluster.name
 }
 
 output "node_role_arn" {
-  value = aws_iam_role.nodes.arn
+  description = "Node IAM Role ARN"
+  value       = aws_iam_role.nodes.arn
 }
 
 output "cluster_id" {
