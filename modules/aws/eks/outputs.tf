@@ -24,8 +24,8 @@ output "cluster_id" {
 output "kubeconfig" {
   description = "Kubeconfig file content to access the EKS cluster"
   value = templatefile("${path.module}/kubeconfig.tpl", {
-    cluster_name                      = aws_eks_cluster.k8s_cluster.name
-    cluster_endpoint                  = aws_eks_cluster.k8s_cluster.endpoint
+    cluster_name                       = aws_eks_cluster.k8s_cluster.name
+    cluster_endpoint                   = aws_eks_cluster.k8s_cluster.endpoint
     cluster_certificate_authority_data = aws_eks_cluster.k8s_cluster.certificate_authority[0].data
   })
 }

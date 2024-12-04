@@ -16,13 +16,10 @@ users:
 - name: aws
   user:
     exec:
-      apiVersion: "client.authentication.k8s.io/v1alpha1"
+      apiVersion: "client.authentication.k8s.io/v1"
       command: "aws"
       args:
         - "eks"
         - "get-token"
         - "--cluster-name"
         - "${cluster_name}"
-        # Optionally include the region if needed:
-        # - "--region"
-        # - "${region}"
