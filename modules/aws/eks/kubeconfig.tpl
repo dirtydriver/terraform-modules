@@ -1,25 +1,31 @@
 apiVersion: v1
 clusters:
 - cluster:
-    server: ${cluster_endpoint}
     certificate-authority-data: ${cluster_certificate_authority_data}
-  name: ${cluster_name}
+    server: ${cluster_endpoint}
+  name: ${cluster_arn}
+
 contexts:
 - context:
-    cluster: ${cluster_name}
-    user: aws
-  name: ${cluster_name}
-current-context: ${cluster_name}
+    cluster: ${cluster_arn}
+    user: ${cluster_arn}
+  name: ${cluster_arn}
+
+current-context: ${cluster_arn}
 kind: Config
 preferences: {}
 users:
-- name: aws
+- name: ${cluster_arn}
   user:
     exec:
-      apiVersion: "client.authentication.k8s.io/v1"
-      command: "aws"
+      apiVersion: client.authentication.k8s.io/v1beta1
+      command: aws
       args:
-        - "eks"
-        - "get-token"
-        - "--cluster-name"
-        - "${cluster_name}"
+        - --region
+        - ${region}
+        - eks
+        - get-token
+        - --cluster-name
+        - ${cluster_name}
+        - --output
+        - json

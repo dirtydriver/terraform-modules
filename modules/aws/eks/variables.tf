@@ -43,3 +43,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "aws_region" {
+  description = "Region of the EKS cluster"
+  type        = string
+  default     = "eu-central-1"
+}
